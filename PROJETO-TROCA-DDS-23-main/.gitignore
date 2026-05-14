@@ -1,0 +1,5 @@
+# Inginnora a pasta de módulos para não pesar o repositório
+server/node_modules
+
+# INGINnora as variáveis de ambiente
+server/.env
