@@ -80,3 +80,63 @@ body{
     margin: 20px auto;
     padding: 20px;
 }
+
+/* Personalização dos botões e inputs */
+/* inputs dos formulários */
+.form-control{
+    width: 100%;
+    padding: 12px 8px;
+    border: 2px solid var(--cor-borda);
+    background-color: var(--cor-fundo);
+    margin-bottom: 15px;
+    border-radius: var(--radius-padrao);
+    font-size: 16px;
+}
+
+/* mudança ao clicar no input*/
+.form-control:focus{
+    outline: none;
+    border-color: var(--cor-destaque);
+}
+
+/* texto de apoio */
+label{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+/* css dos botões */
+.btn{
+    background-color: var(--cor-texto-principal);
+    color: var(--cor-texto-inverso);
+    border: 2px solid var(--cor-borda);
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: var(--radius-padrao);
+    text-transform: uppercase;
+    transition: all 0.4s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+/* botao em destaque */
+.btn:hover{
+    background-color: var(--cor-destaque);
+    border-color: var(--cor-destaque);
+}
+
+/* caixinha de imagem */
+.preview-container{
+    margin-top: 10px;
+    border: 1px solid var(--cor-destaque);
+    padding: 5px;
+    background-color: var(--cor-fundo);
+    text-align: center;
+    display: none;
+    border-radius: var(--radius-padrao);
+}
+.preview-container img{
+    max-width: 100%;
+    max-height: 250px;
+    object-fit: contain; /* ajusta pra não distorcer a imagem */
+}
