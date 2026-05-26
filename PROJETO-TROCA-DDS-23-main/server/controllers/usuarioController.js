@@ -1,12 +1,12 @@
 // importação do model
-const UsuarioModel = require("../models/usuarioModel.js")
+const usuarioModel = require("../models/usuarioModel.js")
 
 // importar pacotes
 // para criptrograffia
 const bcrypt = require('bcrypt')
 // para lidar com cookies
 const jwt = require('jsonwebtoken')
-const usuarioModel = require("../models/usuarioModel.js")
+
 
 module.exports = {
     //FUNÇÕES DE LOGIN
@@ -35,7 +35,7 @@ module.exports = {
             // Guardar o token nos cookies do navegador
             res.cookie('token', token, { httpOnly: true })
 
-            // Redirecionamento de acordo com o perfil
+            // Redirecionamento de acordo com o perfil 
             if(usuario.perfil === "administrador") return res.redirect("/usuarios")
             if(usuario.perfil === "ofertante") return res.redirect("/produtos/meus-produtos")
             if(usuario.perfil === "interessado") return res.redirect("/produtos/vitrine")
@@ -50,6 +50,53 @@ module.exports = {
         res.clearCookie('token')
         // Volta pra tela de login
         res.redirect("/login")
-    }
+    },
 
+    //CRUD
+    //CRIAR USUARIOS
+    renderizarCadastro:(req, res) => {
+        res.render('usuarios/cadastrar')
+    },
+
+    cadastrar: async(req,res) =>{
+        //objeto com as informações preenchidas nos inputs
+        const { nome, email, senha, telefone, perfil } = req.body
+
+        if(perfil === 'administrador'){
+            return res.status(403).render('erro', { mensagem: "Você não possui acesso"})
+        }
+
+        //multer salva a imagem na pasta, e a variavel guarda o nome dela caso o duuario tenha anexado uma imagem
+        const fotoDaPessoa = req.file ? 'uploads/usuarios/$(req.file.name)' : null
+
+        //criptografa a senha do usuario
+        const senhaHash = await bcrypt.hash(senha, 10)
+
+        //chama o model passando as informações já corrigidas
+        await usuarioModel.criarUsuario(nome, email, senhaHash, telefone, fotoDaPessoa, perfil)
+        //variavel pra guardar onde tem de redirecionar o usuario
+        let redirecionadoPara = '/login'
+        //verifica se ja tem alguem logado, analisando se ha algum token salvo
+        if(req.cookies && req.cookies.token){
+            try{
+                const decodificado = jwt.verify(req.cookies.token, process.env.JWT_SECRET)
+                if (decodificado.perfil === 'administrador') {
+                    redirecionadoPara = '/usuarios'
+                }
+            }
+            catch (erro){
+                //segue o jogoindo pra login msm
+            }
+        }
+        //ao fim, redireciona o susuario para onde ele tem q ir, /login ou /usuarios
+        res.redirect(redirecionadoPara)
+    },
+
+    catch(erro){
+        console.error(erro)
+        res.status(500).render('erro',
+             { mensagem: "Erro interno no servidor"})
+    
+    }
 }
+

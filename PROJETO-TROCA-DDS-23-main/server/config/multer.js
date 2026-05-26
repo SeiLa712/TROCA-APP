@@ -41,3 +41,6 @@ const storage = multer.diskStorage({
         cb(null, nomeFinalSeguro)
     }
 })
+
+const upload = multer({ storage:storage });
+module.exports

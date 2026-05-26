@@ -5,6 +5,9 @@ const router = express.Router();
 // Importar o controller do usuario
 const usuarioController = require("../controllers/usuarioController.js")
 
+//importar o multer
+const upload = require("../config/multer.js")
+
 // Declaração das rotas do usuário
 // ROTAS PÚBLICAS
 // Envia os dados de login
@@ -12,6 +15,11 @@ router.post("/login", usuarioController.login)
 
 // Rota de saida
 router.get("/logout", usuarioController.logout)
+
+//ROTA DE CADASTRO de usuario
+//O multer, salva a imagem primeiro, através do upload.single, depois chama o controller
+router.post('/cadastrar', upload.single('foto'), usuarioController.cadastrar)
+
 
 // ROTAS PRIVADAS
 
