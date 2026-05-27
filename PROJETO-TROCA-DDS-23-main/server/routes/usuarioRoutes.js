@@ -31,13 +31,14 @@ router.use(somenteAdmin)
 
 // Obtém a lista de usuários
 router.get("/", (req, res) => {
-  res.json({ mensagem: "Peguei a lista de usuários" });
+  res.status(200).render('usuarios/listar')
 });
 
 //Retornar a página de cadastro
 router.get("/cadastro", (req, res) => {
-  res.json({ mensagem: "Estou na página de cadastro" });
+  res.status(200).render('usuarios/cadastrar')
 });
+
 
 
 module.exports = router

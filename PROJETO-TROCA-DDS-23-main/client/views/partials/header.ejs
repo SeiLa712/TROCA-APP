@@ -18,10 +18,84 @@
 <body>
  <header class="header-sistema">
     <!-- logo do site na esquerda -->
-    <a href="/">
+    <a href="#">
         <img src="/img/logo2horizontalss.png" alt="logo" width="240" height="70">
     </a>
+
     <!-- opções de menu na direita -->
     <nav class="nav-menu">
+        
+        <!-- se tiver logado -->
+        <% if (typeof usuario !== 'undefined' && usuario) { %>
+
+            <!-- mostra nome do usuario -->
+            <span style="color: var(--cor-destaque); font-weight: bold; margin-right: 15px;">
+                <i class="fa-solid fa-user"></i> olá, <%= usuario.nome %>
+            </span>
+
+            <!-- meio -->
+
+            <!-- se for adm -->
+            <% if (usuario.perfil === 'administrador') {%>
+                <div class="dropdown d-inline-block">
+                    <!-- botao de ativar -->
+                     <button class="dropdown-btn dropdown-toggle btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background: transparent; border: none;">
+                        <i class="fa-solid fa-user-shield"></i> gerenciamento do admin
+                     </button>
+                     <!-- sub-opção de menu -->
+                      <ul class="dropdown-menu">
+                        <li><a href="/usuarios" class="dropdown-item">
+                            <i class="fa-solid fa-users"></i>Visualizar usuários</a>
+                        </li>
+                        <li><a href="/usuarios/cadastrar" class="dropdown-item">
+                            <i class="fa-solid fa-user-plus"></i> Cadastrar novo</a>
+                        </li>
+                      </ul>
+                </div>
+            <% } %>
+
+            <!-- se for ofertante -->
+            <% if (usuario.perfil === 'ofertante') {%>
+                <div class="dropdown d-inline-block">
+                    <!-- botao de ativar -->
+                     <button class="dropdown-btn dropdown-toggle btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background: transparent; border: none;">
+                        <i class="fa-solid fa-box"></i> Meus produtos
+                     </button>
+                     <!-- sub-opção de menu -->
+                      <ul class="dropdown-menu">
+                        <li><a href="/produtos/meus-produtos" class="dropdown-item">
+                            <i class="fa-solid fa-shop"></i>Meu painel</a>
+                        </li>
+                      </ul>
+                </div>
+            <% } %>
+
+            <!-- se for interessado -->
+            <% if (usuario.perfil === 'interessado') {%>
+               <!-- Opção de vitrine -->
+                <a href="/produtos/vitrine" class="btn" style="border:none; background: transparent; padding: 10px;">
+                    <i class="fa-solid fa-shop"></i> Vitrine pública
+                </a> 
+            <% } %>
+            
+            <!-- botao de sair -->
+            <a href="/usuarios/logout" class="btn btn-danger" style="margin-left: 20px">
+                <i class="fa-solid fa-right-from-bracket"></i>sair
+            </a>
+
+        <!-- se não tiver logado -->
+        <% } else { %>
+            <!-- botao para fazer login -->
+            <a href="/login" class="btn btn-primary" style="background-color: var(--cor-destaque); border: 2px solid var(--cor-fundo);">
+                <i class="fa-solid fa-right-from-bracket"></i> 
+                Fazer login
+            </a>
+
+            <!-- botao para fazer cadastro -->
+            <a href="/cadastro" class="btn btn-secondary">
+                <i class="fa-solid fa-user-plus"></i> Criar conta
+            </a>
+
+        <% } %>
     </nav> 
  </header>
