@@ -1,8 +1,61 @@
-<!-- importa o header -->
-<%- include('../partials/header') %>
-<!-- MAIN: com o conteudo da página -->
-<main>
-    <h1>estou na usuario / listar</h1>
-</main>
-<!-- Importa o footer -->
-<%- include('../partials/footer') %>
+<!-- Importa o header -->
+ <%- include('../partials/header')%>
+
+ <!-- MAIN: com o conteudo da página -->
+  <main class="contariner">
+    <h2>Lista de usuários</h2>
+
+    <!-- Botão para cadastro de novos usuários -->
+    <a href="usuarios/cadastro" class="btn btn-primary">
+      <i class="fa-solid fa-users-plus"></i> Novo usuário
+    </a>
+
+    <!-- Tabela com lista de usuários -->
+     <table class="tabela-dados">
+      <!-- Cabecalho -->
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Perfil</th>
+          <th style="text-align: center;">Ações</th>
+        </tr>
+      </thead>
+        <!-- Corpo com a lista -->
+      <tbody>
+        <!-- Loop para interagir com a lista de usuários -->
+        <% usuarios.forEach(function (user) { %>
+          <tr>
+            <!-- User = indice atual da lista de usuarios, utiliza as info dele para gerar a tabela -->
+            <td> <%= user.id %> </td>
+            <td> <%= user.nome %> </td>
+            <td> <%= user.email %> </td>
+            <td> <%= user.perfil.toUpperCase() %></td>
+          <!-- Opções de edição e exclusão daquele usuário -->
+            <td style="text-align: center; white-space: nowrap;">
+              <!-- Botão editar -->
+              <a href="/usuarios/editar/<%= user.id %>" class="btn btn-secondary">
+                 <i class="fa-solid fa-pen"></i> Editar
+              </a>
+
+              <!-- botão de excluir -->
+              <form action="/usuarios/deletar/<%= user.id %>" method="post" 
+                  style="display: inline;" 
+                  onsubmit="return confirm('Deseja realmente fazer a exclusão')">
+                <button type="submit" class="btn btn-danger">
+                  <i class="fa-solid fa-trash"></i> Excluir
+                </button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+
+
+     </table>
+     
+  </main>
+
+  <!-- Importa o footer -->
+  <%- include('../partials/footer')%>

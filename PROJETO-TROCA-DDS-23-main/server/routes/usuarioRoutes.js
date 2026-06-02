@@ -29,15 +29,14 @@ router.post("/cadastrar", upload.single('foto'), usuarioController.cadastrar)
 router.use(verificarAutenticacao)
 router.use(somenteAdmin)
 
+//CRUD
+//READ - LISTAR USUÁRIOS
 // Obtém a lista de usuários
-router.get("/", (req, res) => {
-  res.status(200).render('usuarios/listar')
-});
+router.get("/", usuarioController.listar);
 
+//CREATE - CRIAR USUÁRIOS
 //Retornar a página de cadastro
-router.get("/cadastro", (req, res) => {
-  res.status(200).render('usuarios/cadastrar')
-});
+  router.get("/cadastro", usuarioController.renderizarCadastro);
 
 
 

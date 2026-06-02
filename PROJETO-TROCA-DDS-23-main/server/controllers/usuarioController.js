@@ -98,5 +98,19 @@ module.exports = {
              { mensagem: "Erro interno no servidor"})
     
     }
-}
+    ,
 
+    //READ - listar usuários
+    listar: async (req,res) =>{
+        try{
+            //se deu certo, mostra a página de usuário 
+            const usuarios = await usuarioModel.listarUsuarios()
+            
+            res.render('usuarios/listar', { usuarios })
+        }
+        catch(erro){
+            //se deu erro, mostra a tela de erro padrão pra pessoa
+            res.status(500).render('erro', { mensagem: "Erro ao listar usuários"})
+        }
+}
+}
