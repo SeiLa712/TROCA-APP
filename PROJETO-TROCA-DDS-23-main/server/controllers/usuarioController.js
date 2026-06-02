@@ -106,11 +106,29 @@ module.exports = {
             //se deu certo, mostra a página de usuário 
             const usuarios = await usuarioModel.listarUsuarios()
             
-            res.render('usuarios/listar', { usuarios })
+            res.render('usuarios/listar2', { usuarios })
         }
         catch(erro){
             //se deu erro, mostra a tela de erro padrão pra pessoa
             res.status(500).render('erro', { mensagem: "Erro ao listar usuários"})
         }
-}
+    },
+
+    //DELETE - deletar usuário
+    deletar: async (req,res) =>{
+        try{
+            //pega o id do usuário, vindo da url da requisição
+            const idVindoDaUrl = req.params.id
+
+            //chama a função do model, passando o id do usuário
+            await usuarioModel.deletarUsuario(idVindoDaUrl)
+
+            //se deu certo, redireciona pra página de usuários
+            res.redirect("/usuarios")
+        }
+        catch(erro){
+        //se deu erro, mostra a tela de erro padrão para pessoa
+        res.status(500).render('erro', { mensagem: "Erro ao deletar usuário"})
+        }
+    } 
 }

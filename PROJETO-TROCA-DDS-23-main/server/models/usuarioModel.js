@@ -32,6 +32,15 @@ module.exports = {
         const [linhas] = await db.execute(query)
         //retorna pro controller o resultado, nesse caso a lista de usuários
         return linhas
-    }
+    },
 
+    // DELETE
+    deletarUsuario : async (id) =>{
+        //Query pra fazer a consulta ao banco
+        const query = 'DELETE FROM USUARIOS WHERE id = ?'
+        //guarda o resultado da consulta na variável
+        const [resultado] = await db.execute(query, [id])
+        //retorna pro controller o resultado, nesse caso o número de linhas afetadas
+        return resultado.affectedRows    
+    }
 }

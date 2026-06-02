@@ -36,8 +36,9 @@ router.get("/", usuarioController.listar);
 
 //CREATE - CRIAR USUÁRIOS
 //Retornar a página de cadastro
-  router.get("/cadastro", usuarioController.renderizarCadastro);
+router.get("/cadastro", usuarioController.renderizarCadastro);
 
-
+//DELETE - DELETAR USUÁRIOS
+router.post("/deletar/:id", usuarioController.deletar)
 
 module.exports = router
