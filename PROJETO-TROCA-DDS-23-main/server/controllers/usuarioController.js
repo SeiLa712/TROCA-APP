@@ -130,5 +130,57 @@ module.exports = {
         //se deu erro, mostra a tela de erro padrão para pessoa
         res.status(500).render('erro', { mensagem: "Erro ao deletar usuário"})
         }
-    } 
+    },
+
+    // UPDATE - ATUALIZAR UM USUARIO COM BASE NO ID
+    //RENDERIZA A PÁGINA DE CADASTRO
+    editar: async (req,res) =>{
+        try{
+            //BUSCA O ID DO USUARIO VINDO DA URL DA REQUISIÇÃO ATRAVES DO RES.PARAMS
+            //exemplo: editar/5 <- é o id do individuo
+            const idVindoDaUrl = req.params.id
+            
+            //CHAMA O MODEL PARA BUSCAR AS INFORMAÇÕES
+            const usuarioEditado = await usuarioModel.buscarPorId(idVindoDaUrl)
+
+            // renderiza a página de editar, já com o formulário preenchido com as informações
+            res.render('usuarios/editar', { usuarioEditado })
+
+        }catch(erro){
+            res.status(500).render('erro', { mensagem: "Erro ao abrir tela de edição"})
+        }
+    },
+    //ATUALIZA O USUARIO COM AS NOVAS INFORMAÇÕES
+    atualizarUsuario: async (req,res) =>{
+        try{
+            const idVindoDaUrl = req.params.id
+
+            // Cria um objeto com as informações das caixinhas
+            const {nome, email, senha, telefone, perfil} = req.body
+
+            // Resgata o caminho da foto, vindo do multer
+            const fotoDaPessoa = req.file ? `/uploads/usuarios/${req.file.filename}` : null
+
+            // Parte da senha, caso necessário
+            let senhaHash
+            if(senha && senha.trim() !== ''){
+                //Se o campo senha estiver preenchido, criptografia a nova senha
+                senhaHash = await bcrypt.hash(senha,10)
+            }
+            else{
+                //SE o campo senha estiver em branco, deixa a mesma que tava antes
+                const usuarioAntigo = await usuarioModel.buscarPorId(idVindoDaUrl)
+                senhaHash = usuarioAntigo.senha
+            }
+
+            // Chamar o model, e atualizar o usuário
+            await usuarioModel.atualizarUsuario(idVindoDaUrl, nome, email, senhaHash, telefone, fotoDaPessoa, perfil)
+            res.redirect("/usuarios")
+        }
+        catch(erro){
+            res.status(500).render('erro',{mensagem: "Erro ao editar usuário"})
+        }
+    },
+
 }
+

@@ -41,4 +41,10 @@ router.get("/cadastro", usuarioController.renderizarCadastro);
 //DELETE - DELETAR USUÁRIOS
 router.post("/deletar/:id", usuarioController.deletar)
 
+//UPDATE - ATUALIZAR USUÁRIOS
+router.get("/editar/:id", usuarioController.editar)
+
+//UPDATE ATUALIZA AS INFORMAÇÕES DE UM USUARIO
+router.post("/atualizar/:id", upload.single('foto'), usuarioController.atualizarUsuario)
+
 module.exports = router
